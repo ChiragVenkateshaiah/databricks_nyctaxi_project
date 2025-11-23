@@ -1,1 +1,1 @@
-# databricks_UC_nyctaxi_project
+# databricks_nyctaxi_project
