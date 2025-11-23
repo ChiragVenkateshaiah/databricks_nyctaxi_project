@@ -197,15 +197,7 @@ gold_df = spark.table("nyctaxi.03_gold.daily_trip_summary")
 gold_df.show(10)
 ```
 
----
 
-## Resume Snippet & Interview Pitch
-
-**Resume bullet:**
-- "Built an end-to-end ETL pipeline on Azure Databricks to ingest, cleanse, enrich, and aggregate NYC Yellow Taxi trip data using PySpark and Delta Lake (Bronze→Silver→Gold). Produced `nyctaxi.03_gold.daily_trip_summary` for analytics and dashboards."
-
-**2–3 minute interview pitch:**
-- "I built a Databricks-based pipeline that ingests NYC TLC trip data (published with a two-month delay). The pipeline writes raw data to a landing area, stamps it in the Bronze layer with processing metadata, cleans and enriches it in the Silver layer (including lookups to map zone IDs to borough/zone names), and produces a daily aggregated Gold table for BI consumption. I leveraged Unity Catalog for governance, Delta Lake for ACID and time-travel, and modular PySpark notebooks so each transformation step is auditable and testable."
 
 ---
 
@@ -231,8 +223,7 @@ gold_df.show(10)
 
 ## Contact
 **Chirag Venkateshaiah**  
-GitHub: https://github.com/<your-username>  
-LinkedIn: https://www.linkedin.com/in/<your-link>  
+GitHub: https://github.com/ChiragVenkateshaiah
 
 ---
 
