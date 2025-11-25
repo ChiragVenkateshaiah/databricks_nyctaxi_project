@@ -1,20 +1,17 @@
 # Databricks notebook source
-# Loading cleansed trip data and zone lookup data
-
+# Load cleansed trip data and zone lookup tables
 df_trips = spark.read.table("nyctaxi.02_silver.yellow_trips_cleansed")
 df_zones = spark.read.table("nyctaxi.02_silver.taxi_zone_lookup")
 
 # COMMAND ----------
 
-df_join_1 = (
-    df_trips
-    .join(
-        df_zones,
-        df_trips.pu_location_id == df_zones.location_id,
-        "left"
-    )
-    .select(
-        df_trips.vendor,
+# Join trips with pickup zone details (borough and zone name)
+df_join_1 = df_trips.join(
+                df_zones, 
+                df_trips.pu_location_id == df_zones.location_id,
+                "left"
+                ).select(
+                    df_trips.vendor,
                     df_trips.tpep_pickup_datetime,
                     df_trips.tpep_dropoff_datetime,
                     df_trips.trip_duration,
@@ -36,21 +33,16 @@ df_join_1 = (
                     df_trips.cbd_congestion_fee,
                     df_trips.processed_timestamp
                 )
-)
 
 # COMMAND ----------
 
 # Join the result with dropoff zone details to complete enrichment
-
-df_join_final = (
-    df_join_1
-    .join(
-        df_zones,
-        df_join_1.do_location_id == df_zones.location_id,
-        "left"
-    )
-    .select(
-         df_join_1.vendor,
+df_join_final = df_join_1.join(
+                                df_zones, 
+                                df_join_1.do_location_id == df_zones.location_id,
+                                "left"
+                                ).select(
+                                            df_join_1.vendor,
                                             df_join_1.tpep_pickup_datetime,
                                             df_join_1.tpep_dropoff_datetime,
                                             df_trips.trip_duration,
@@ -72,9 +64,9 @@ df_join_final = (
                                             df_join_1.airport_fee,  
                                             df_join_1.cbd_congestion_fee,
                                             df_join_1.processed_timestamp
-    )
-)
+                                )
 
 # COMMAND ----------
 
+# Write the enriched dataset to a Unity Catalog managed Delta table in the silver schema
 df_join_final.write.mode("overwrite").saveAsTable("nyctaxi.02_silver.yellow_trips_enriched")
