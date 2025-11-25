@@ -1,29 +1,28 @@
 # Databricks notebook source
-# Databricks notebook source
-import urllib.request
+import sys
 import os
+# Go two levels up to reach the project root
+project_root = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+import urllib.request
 import shutil
 from datetime import datetime
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
-
-# COMMAND ----------
+from modules.utils.date_utils import get_target_yyyymm
+from modules.data_loader.file_downloader import download_file
 
 # Obtains the year-month for 2 months prior to the current month in yyyy-MM format
-two_months_ago = date.today() - relativedelta(months=2)
-formatted_date = two_months_ago.strftime("%Y-%m")
-
-# COMMAND ----------
+formatted_date = get_target_yyyymm(2)
 
 # Define the local directory for this date's data
 dir_path = f"/Volumes/nyctaxi/00_landing/data_sources/nyctaxi_yellow/{formatted_date}"
 
-# COMMAND ----------
-
 # Define the full path for the downloaded file
 local_path = f"{dir_path}/yellow_tripdata_{formatted_date}.parquet"
-
-# COMMAND ----------
 
 try:
     # Check if the file already exists
@@ -37,15 +36,9 @@ except:
         # Construct the URL for the Parquet file corresponding to this month
         url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{formatted_date}.parquet"
 
-        # Open a connection and stream the remote file
-        response = urllib.request.urlopen(url)
-
+        # Download the file
         # Create the local directory for this date's data
-        os.makedirs(dir_path, exist_ok=True)
-
-        # Save the streamed content to the local file in binary mode
-        with open(local_path, 'wb') as f:
-            shutil.copyfileobj(response, f)  # Copy data from response to file
+        download_file(url, dir_path, local_path)
         
         # Set continue_downstream to yes if the file was loaded
         dbutils.jobs.taskValues.set(key="continue_downstream", value="yes")
