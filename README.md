@@ -155,11 +155,6 @@ This ensures that zone mappings remain accurate over time.
 
 ---
 
-## Repository Structure (Suggested)
-
-```
-
-```
 
 ---
 
