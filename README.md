@@ -42,6 +42,15 @@ The pipeline produces an analytics-ready gold table `nyctaxi.03_gold.daily_trip_
 4. **Gold Layer**: Aggregates cleansed & enriched records into `nyctaxi.03_gold.daily_trip_summary` containing daily business metrics.
 5. **Lookup Management**: The pipeline checks the Taxi Zone Lookup CSV for updates and reloads/updates the lookup data if changed.
 
+This project was developed iteratively as the course advanced and our technical skills expanded. Beginning with foundational ETL pipelines and the Medallion Architecture, the work gradually progressed into more sophisticated engineering practices. We automated data workflows using Databricks Jobs, introduced conditional task execution, and integrated Slowly Changing Dimensions (SCD Type 2) for historical tracking. As the project matured, we added Git-based version control and modular function-driven code structures to enhance maintainability. In the final phase, we adopted Unity Catalog to deliver a data product for an external team, onboarding it into the Databricks environment via an external table for secure and governed access.
+
+Consists of 4 parts as stated below:
+
+Part 1: Built core ETL logic and implemented the Medallion Architecture.
+Part 2: Automated processing with Databricks Jobs, added control flow, and implemented SCD Type 2 on the taxi zone lookup table.
+Part 3: Added Git-based version control and modularized the code using reusable functions.
+Part 4: Leveraged Unity Catalog to develop a product for an external data team and integrated it into Databricks through an external table.
+
 ---
 
 ## Architecture (Medallion)
