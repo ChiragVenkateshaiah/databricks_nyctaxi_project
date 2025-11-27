@@ -1,7 +1,7 @@
 # Databricks notebook source
 # Creating the catalog
 # Please update the managed location path
-spark.sql("create catalog if not exists nyctaxi managed location 'your path here'")
+spark.sql("create catalog if not exists nyctaxi managed location 'abfss://unity-catalog-storage@dbstorager2fbz2z7iuw6m.dfs.core.windows.net/367808356254731'")
 
 # COMMAND ----------
 
